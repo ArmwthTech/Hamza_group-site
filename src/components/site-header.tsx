@@ -67,36 +67,40 @@ export function SiteHeader() {
         </button>
       </div>
       {menuOpen && (
-        <div
-          className="fixed inset-x-0 top-[78px] z-50 border-b border-line bg-[#090A0D]/98 px-4 py-4 shadow-panel backdrop-blur-xl xl:hidden"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setMenuOpen(false);
-          }}
-        >
-          <nav className="mx-auto grid max-w-2xl gap-2">
-            {nav.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="rounded-md border border-line bg-white/[0.03] px-4 py-3 text-sm font-bold uppercase tracking-wide text-white/80 transition hover:border-accent hover:text-white"
-              >
-                {item.label}
-              </a>
-            ))}
-            <div className="mt-2 grid gap-3 rounded-md border border-line bg-white/[0.03] p-4 sm:grid-cols-[1fr_auto] sm:items-center">
-              <div>
-                <a href="tel:88007004070" className="font-heading text-lg font-black">
-                  8 800 700-40-70
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 top-[78px] z-[55] cursor-default bg-black/78 backdrop-blur-sm xl:hidden"
+            aria-label="Закрыть меню"
+            onClick={() => setMenuOpen(false)}
+          />
+          <div className="fixed inset-x-0 top-[78px] z-[60] max-h-[calc(100svh-78px)] overflow-y-auto border-b border-line bg-[#08090C] shadow-panel xl:hidden">
+            <nav className="section-shell grid gap-3 py-4 sm:py-5 md:max-w-xl md:justify-self-end">
+              {nav.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="group flex min-h-14 items-center justify-between rounded-md border border-line bg-[#151518] px-4 text-sm font-black uppercase tracking-wide text-white transition hover:border-accent hover:bg-[#1A1A1F] focus:outline-none focus:ring-2 focus:ring-accent/45"
+                >
+                  {item.label}
+                  <span className="h-2 w-2 rounded-full bg-accent opacity-0 transition group-hover:opacity-100" />
                 </a>
-                <p className="mt-1 text-xs text-muted">Ежедневно 09:00 - 20:00</p>
+              ))}
+              <div className="mt-1 grid gap-4 rounded-md border border-accent/45 bg-[#151518] p-4 shadow-[0_18px_50px_rgba(230,0,18,0.12)] sm:grid-cols-[1fr_auto] sm:items-center">
+                <div>
+                  <a href="tel:88007004070" className="font-heading text-xl font-black text-white">
+                    8 800 700-40-70
+                  </a>
+                  <p className="mt-1 text-xs font-medium text-white/58">Ежедневно 09:00 - 20:00</p>
+                </div>
+                <LeadModalButton className="w-full sm:w-auto" source="mobile-menu" icon="phone">
+                  Получить расчёт
+                </LeadModalButton>
               </div>
-              <LeadModalButton className="w-full sm:w-auto" source="mobile-menu" icon="phone">
-                Получить расчёт
-              </LeadModalButton>
-            </div>
-          </nav>
-        </div>
+            </nav>
+          </div>
+        </>
       )}
     </header>
   );
