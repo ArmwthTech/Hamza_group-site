@@ -2,16 +2,22 @@
 
 import { FormEvent, useState } from "react";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
-import { isSupabaseConfigured, supabase } from "@/lib/supabase";
+import {
+  formatRussianPhone,
+  sanitizeName,
+  sanitizeTelegramUsername,
+  validateLead
+} from "@/lib/lead-validation";
 import { telegramUrl } from "@/lib/sample-data";
 import type { LeadPayload } from "@/types";
 
 const initial: LeadPayload = {
   name: "",
   phone: "",
+  telegram_username: "",
   desired_car: "",
   budget: "",
-  country_preference: "Не знаю",
+  country_preference: "",
   source: "landing"
 };
 
@@ -25,28 +31,29 @@ export function LeadForm({ source = "landing" }: { source?: string }) {
     setStatus("loading");
     setMessage("");
 
-    if (!form.name.trim() || !form.phone.trim()) {
+    const validation = validateLead(form);
+
+    if (!validation.ok) {
       setStatus("error");
-      setMessage("Укажите имя и телефон, чтобы менеджер мог связаться.");
+      setMessage(validation.message);
       return;
     }
 
-    if (!isSupabaseConfigured || !supabase) {
-      setStatus("success");
-      setMessage("Заявка подготовлена. Для сохранения подключите Supabase, либо напишите HAMZA GROUP в Telegram.");
-      return;
-    }
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(validation.data)
+    });
+    const result = (await response.json()) as { ok: boolean; message?: string };
 
-    const { error } = await supabase.from("leads").insert(form);
-
-    if (error) {
+    if (!response.ok || !result.ok) {
       setStatus("error");
-      setMessage("Не удалось сохранить заявку. Напишите HAMZA GROUP напрямую в Telegram.");
+      setMessage(result.message || "Не удалось отправить заявку. Напишите HAMZA GROUP напрямую в Telegram.");
       return;
     }
 
     setStatus("success");
-    setMessage("Заявка отправлена. Менеджер свяжется и предложит варианты.");
+    setMessage(result.message || "Заявка отправлена. Менеджер свяжется и предложит варианты.");
     setForm({ ...initial, source });
   }
 
@@ -66,7 +73,7 @@ export function LeadForm({ source = "landing" }: { source?: string }) {
             value={form.name}
             autoComplete="name"
             required
-            onChange={(event) => setForm({ ...form, name: event.target.value })}
+            onChange={(event) => setForm({ ...form, name: sanitizeName(event.target.value) })}
           />
         </label>
         <label className={fieldClass}>
@@ -78,11 +85,27 @@ export function LeadForm({ source = "landing" }: { source?: string }) {
             type="tel"
             autoComplete="tel"
             inputMode="tel"
+            maxLength={16}
+            pattern="^\+7\s\d{3}\s\d{3}-\d{2}-\d{2}$"
             required
-            onChange={(event) => setForm({ ...form, phone: event.target.value })}
+            onChange={(event) => setForm({ ...form, phone: formatRussianPhone(event.target.value) })}
           />
         </label>
       </div>
+      <label className={fieldClass}>
+        <span className={labelClass}>Telegram username</span>
+        <input
+          className={inputClass}
+          placeholder="@username"
+          value={form.telegram_username}
+          autoComplete="off"
+          inputMode="text"
+          maxLength={33}
+          onChange={(event) =>
+            setForm({ ...form, telegram_username: sanitizeTelegramUsername(event.target.value) })
+          }
+        />
+      </label>
       <label className={fieldClass}>
         <span className={labelClass}>Желаемый автомобиль</span>
         <input
@@ -105,7 +128,7 @@ export function LeadForm({ source = "landing" }: { source?: string }) {
           />
         </label>
         <label className={fieldClass}>
-          <span className={labelClass}>Страна</span>
+          <span className={labelClass}>Страна <span className="text-white/35">(необязательно)</span></span>
           <select
             className={inputClass}
             value={form.country_preference}
@@ -116,6 +139,7 @@ export function LeadForm({ source = "landing" }: { source?: string }) {
               })
             }
           >
+            <option value="">Не указывать</option>
             <option>Китай</option>
             <option>Корея</option>
             <option>Не знаю</option>

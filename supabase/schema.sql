@@ -17,12 +17,16 @@ create table if not exists public.leads (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   phone text not null,
+  telegram_username text,
   desired_car text,
   budget text,
   country_preference text not null default 'Не знаю',
   source text not null default 'landing',
   created_at timestamptz not null default now()
 );
+
+alter table public.leads
+  add column if not exists telegram_username text;
 
 alter table public.cars enable row level security;
 alter table public.leads enable row level security;

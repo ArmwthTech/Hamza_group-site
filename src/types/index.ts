@@ -19,8 +19,9 @@ export type Car = {
 export type LeadPayload = {
   name: string;
   phone: string;
+  telegram_username: string;
   desired_car: string;
   budget: string;
-  country_preference: "Китай" | "Корея" | "Не знаю";
+  country_preference: "" | "Китай" | "Корея" | "Не знаю";
   source: string;
 };
