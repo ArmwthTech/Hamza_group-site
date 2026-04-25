@@ -52,7 +52,7 @@ export function LeadModalButton({
 
       {open && (
         <div
-          className="fixed inset-0 z-[100] grid place-items-center bg-black/72 p-4 backdrop-blur-sm"
+          className="modal-backdrop fixed inset-0 z-[100] grid place-items-center bg-black/72 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="lead-modal-title"
@@ -60,7 +60,7 @@ export function LeadModalButton({
             if (event.target === event.currentTarget) setOpen(false);
           }}
         >
-          <div className="relative w-full max-w-xl rounded-lg border border-line bg-[#101116] p-4 shadow-panel sm:p-6">
+          <div className="modal-panel relative w-full max-w-xl rounded-lg border border-line bg-[#101116] p-4 shadow-panel sm:p-6">
             <button
               type="button"
               onClick={() => setOpen(false)}

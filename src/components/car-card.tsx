@@ -13,7 +13,6 @@ export function CarCard({ car }: { car: Car }) {
           src={car.image_url}
           alt={car.title}
           fill
-          loading="eager"
           sizes="(min-width: 1024px) 33vw, 100vw"
           className="object-cover transition duration-500 group-hover:scale-105"
         />

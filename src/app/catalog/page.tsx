@@ -15,10 +15,10 @@ export default async function CatalogPage() {
   return (
     <>
       <SiteHeader />
-      <main className="section-shell py-12">
+      <main className="section-shell py-10 md:py-12">
         <div className="max-w-3xl">
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Каталог</p>
-          <h1 className="mt-3 font-heading text-4xl font-black tracking-tight md:text-5xl">
+          <h1 className="mt-3 font-heading text-[34px] font-black leading-tight tracking-normal md:text-5xl">
             Авто из Китая и Кореи
           </h1>
           <p className="mt-5 leading-7 text-muted">
@@ -34,7 +34,7 @@ export default async function CatalogPage() {
           ))}
         </div>
 
-        <section className="mt-14 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+        <section className="mt-12 grid gap-8 md:mt-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">Не нашли модель?</p>
             <h2 className="mt-3 font-heading text-3xl font-black">Подберём альтернативы</h2>

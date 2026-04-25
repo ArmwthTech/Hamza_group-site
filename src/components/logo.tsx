@@ -15,7 +15,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
         />
       </span>
       {!compact && (
-        <span className="leading-none">
+        <span className="hidden leading-none sm:block">
           <span className="block font-heading text-xl font-black tracking-[0.04em] text-white">
             HAMZA GROUP
           </span>

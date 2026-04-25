@@ -50,52 +50,77 @@ export function LeadForm({ source = "landing" }: { source?: string }) {
     setForm({ ...initial, source });
   }
 
+  const fieldClass = "grid gap-2";
+  const labelClass = "text-xs font-bold uppercase tracking-[0.16em] text-white/62";
   const inputClass =
-    "min-h-12 rounded-md border border-line bg-black/35 px-4 text-sm text-white outline-none transition placeholder:text-muted/70 focus:border-accent focus:ring-2 focus:ring-accent/20";
+    "min-h-12 rounded-md border border-line bg-black/35 px-4 text-sm text-white outline-none transition placeholder:text-muted/55 focus:border-accent focus:ring-2 focus:ring-accent/20";
 
   return (
-    <form onSubmit={onSubmit} className="dark-card grid gap-4 rounded-lg p-5 md:p-6">
+    <form onSubmit={onSubmit} className="dark-card grid gap-4 rounded-lg p-5 md:p-6" aria-label="Форма заявки на подбор автомобиля">
       <div className="grid gap-4 sm:grid-cols-2">
-        <input
-          className={inputClass}
-          placeholder="Имя"
-          value={form.name}
-          onChange={(event) => setForm({ ...form, name: event.target.value })}
-        />
-        <input
-          className={inputClass}
-          placeholder="Телефон"
-          value={form.phone}
-          onChange={(event) => setForm({ ...form, phone: event.target.value })}
-        />
+        <label className={fieldClass}>
+          <span className={labelClass}>Имя</span>
+          <input
+            className={inputClass}
+            placeholder="Алексей"
+            value={form.name}
+            autoComplete="name"
+            required
+            onChange={(event) => setForm({ ...form, name: event.target.value })}
+          />
+        </label>
+        <label className={fieldClass}>
+          <span className={labelClass}>Телефон</span>
+          <input
+            className={inputClass}
+            placeholder="+7 900 000-00-00"
+            value={form.phone}
+            type="tel"
+            autoComplete="tel"
+            inputMode="tel"
+            required
+            onChange={(event) => setForm({ ...form, phone: event.target.value })}
+          />
+        </label>
       </div>
-      <input
-        className={inputClass}
-        placeholder="Желаемый автомобиль"
-        value={form.desired_car}
-        onChange={(event) => setForm({ ...form, desired_car: event.target.value })}
-      />
-      <div className="grid gap-4 sm:grid-cols-2">
+      <label className={fieldClass}>
+        <span className={labelClass}>Желаемый автомобиль</span>
         <input
           className={inputClass}
-          placeholder="Бюджет"
-          value={form.budget}
-          onChange={(event) => setForm({ ...form, budget: event.target.value })}
+          placeholder="Toyota Camry, Kia K5 или аналог"
+          value={form.desired_car}
+          autoComplete="off"
+          onChange={(event) => setForm({ ...form, desired_car: event.target.value })}
         />
-        <select
-          className={inputClass}
-          value={form.country_preference}
-          onChange={(event) =>
-            setForm({
-              ...form,
-              country_preference: event.target.value as LeadPayload["country_preference"]
-            })
-          }
-        >
-          <option>Китай</option>
-          <option>Корея</option>
-          <option>Не знаю</option>
-        </select>
+      </label>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className={fieldClass}>
+          <span className={labelClass}>Бюджет</span>
+          <input
+            className={inputClass}
+            placeholder="от 1.5 млн ₽"
+            value={form.budget}
+            inputMode="numeric"
+            onChange={(event) => setForm({ ...form, budget: event.target.value })}
+          />
+        </label>
+        <label className={fieldClass}>
+          <span className={labelClass}>Страна</span>
+          <select
+            className={inputClass}
+            value={form.country_preference}
+            onChange={(event) =>
+              setForm({
+                ...form,
+                country_preference: event.target.value as LeadPayload["country_preference"]
+              })
+            }
+          >
+            <option>Китай</option>
+            <option>Корея</option>
+            <option>Не знаю</option>
+          </select>
+        </label>
       </div>
       <button
         disabled={status === "loading"}
