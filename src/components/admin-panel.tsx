@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { DragEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { ImagePlus, Loader2, LogOut, Plus, Save, Trash2, Upload } from "lucide-react";
 import { isSupabaseConfigured } from "@/lib/supabase";
@@ -34,6 +34,7 @@ export function AdminPanel({ passwordConfigured }: { passwordConfigured: boolean
   const [draft, setDraft] = useState<DraftCar>(emptyCar);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
   const [message, setMessage] = useState("");
 
   const publishedCount = useMemo(() => cars.filter((car) => car.status === "published").length, [cars]);
@@ -205,6 +206,27 @@ export function AdminPanel({ passwordConfigured }: { passwordConfigured: boolean
     setMessage(`Загружено фото: ${result.urls.length}.`);
   }
 
+  function handleDrag(event: DragEvent<HTMLLabelElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!storageReady || uploading) return;
+    setDragActive(event.type === "dragenter" || event.type === "dragover");
+  }
+
+  function handleDrop(event: DragEvent<HTMLLabelElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    setDragActive(false);
+
+    if (!storageReady || uploading) {
+      setMessage("Загрузка файлов недоступна: настройте Supabase Storage. URL можно добавить вручную.");
+      return;
+    }
+
+    void uploadPhotos(event.dataTransfer.files);
+  }
+
   function editCar(car: Car) {
     setDraft({
       ...car,
@@ -320,9 +342,24 @@ export function AdminPanel({ passwordConfigured }: { passwordConfigured: boolean
                 ? "Можно выбрать несколько изображений. Они загрузятся в Supabase Storage."
                 : "Загрузка файлов недоступна без Supabase Storage. Добавьте URL вручную."}
             </p>
-            <label className="mt-4 inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-md border border-line px-4 text-sm font-bold transition hover:border-accent">
-              {uploading ? <Loader2 className="animate-spin" size={17} /> : <Upload size={17} />}
-              Загрузить
+            <label
+              onDragEnter={handleDrag}
+              onDragOver={handleDrag}
+              onDragLeave={handleDrag}
+              onDrop={handleDrop}
+              className={`mt-4 flex min-h-36 cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border border-dashed px-4 py-5 text-center transition ${
+                dragActive
+                  ? "border-accent bg-accent/10"
+                  : "border-line bg-[color:var(--panel-soft)] hover:border-accent hover:bg-accent/5"
+              } ${!storageReady || uploading ? "cursor-not-allowed opacity-65" : ""}`}
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-full border border-line bg-[color:var(--panel)]">
+                {uploading ? <Loader2 className="animate-spin text-accent" size={20} /> : <Upload className="text-accent" size={20} />}
+              </span>
+              <span className="text-sm font-bold">
+                {dragActive ? "Отпустите файлы здесь" : "Перетащите фото сюда или нажмите для выбора"}
+              </span>
+              <span className="text-xs leading-5 text-muted">Можно загрузить несколько JPG, PNG или WEBP</span>
               <input
                 type="file"
                 accept="image/*"
