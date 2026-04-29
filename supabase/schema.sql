@@ -5,6 +5,7 @@ create table if not exists public.cars (
   year integer not null,
   price_from integer not null,
   image_url text not null,
+  image_urls jsonb not null default '[]'::jsonb,
   description text not null,
   mileage text,
   engine text,
@@ -28,6 +29,9 @@ create table if not exists public.leads (
 alter table public.leads
   add column if not exists telegram_username text;
 
+alter table public.cars
+  add column if not exists image_urls jsonb not null default '[]'::jsonb;
+
 alter table public.cars enable row level security;
 alter table public.leads enable row level security;
 
@@ -47,3 +51,7 @@ create policy "Anyone can create leads"
 create policy "Authenticated users read leads"
   on public.leads for select
   using (auth.role() = 'authenticated');
+
+insert into storage.buckets (id, name, public)
+values ('car-photos', 'car-photos', true)
+on conflict (id) do update set public = true;

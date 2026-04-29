@@ -40,7 +40,7 @@ export function LeadModalButton({
   const modal =
     open && typeof document !== "undefined" ? (
       <div
-        className="modal-backdrop fixed inset-0 z-[100] grid min-h-svh place-items-center overflow-y-auto bg-black/72 p-4 backdrop-blur-md"
+        className="modal-backdrop fixed inset-0 z-[100] grid min-h-svh place-items-center overflow-y-auto bg-[color:var(--modal-scrim)] p-4 backdrop-blur-md"
         role="dialog"
         aria-modal="true"
         aria-labelledby="lead-modal-title"
@@ -48,11 +48,11 @@ export function LeadModalButton({
           if (event.target === event.currentTarget) setOpen(false);
         }}
       >
-        <div className="modal-panel relative my-auto w-full max-w-xl rounded-lg border border-line bg-[#101116] p-4 shadow-panel sm:p-6">
+        <div className="modal-panel relative my-auto w-full max-w-xl rounded-lg border border-line bg-[color:var(--panel)] p-4 shadow-panel sm:p-6">
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-md border border-line bg-black/30 text-white/70 transition hover:border-accent hover:text-white"
+            className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-md border border-line bg-[color:var(--panel-soft)] text-[color:var(--muted)] transition hover:border-accent hover:text-[color:var(--text)]"
             aria-label="Закрыть форму"
           >
             <X size={18} />

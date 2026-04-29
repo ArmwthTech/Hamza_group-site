@@ -4,6 +4,7 @@ node_modules/
 *.log
 .env*.local
 .playwright-mcp/
+.chrome-*-qa/
 /hamza-*.png
 /qa-*.png
 dev-server*.log

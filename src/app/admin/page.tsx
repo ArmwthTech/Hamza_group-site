@@ -5,11 +5,13 @@ export const metadata = {
   title: "Админка каталога — HAMZA GROUP"
 };
 
+export const dynamic = "force-dynamic";
+
 export default function AdminPage() {
   return (
     <>
       <SiteHeader />
-      <AdminPanel />
+      <AdminPanel passwordConfigured={Boolean(process.env.ADMIN_PASSWORD)} />
     </>
   );
 }

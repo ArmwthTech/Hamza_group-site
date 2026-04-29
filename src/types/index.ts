@@ -8,6 +8,7 @@ export type Car = {
   year: number;
   price_from: number;
   image_url: string;
+  image_urls?: string[] | null;
   description: string;
   mileage?: string | null;
   engine?: string | null;

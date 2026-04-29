@@ -14,8 +14,8 @@ export function ButtonLink({ href, children, variant = "primary", className }: B
     primary:
       "border-accent bg-accent text-white shadow-red hover:-translate-y-0.5 hover:bg-[#ff1022]",
     secondary:
-      "border-line bg-white/5 text-white hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10",
-    ghost: "border-transparent text-white/80 hover:text-white"
+      "border-line bg-[color:var(--panel-soft)] text-[color:var(--text)] hover:-translate-y-0.5 hover:border-accent/60 hover:bg-[color:var(--panel-hover)]",
+    ghost: "border-transparent text-[color:var(--muted)] hover:text-[color:var(--text)]"
   };
 
   return (

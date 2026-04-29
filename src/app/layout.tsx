@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -77,8 +78,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ru" className={`${inter.variable} ${montserrat.variable}`}>
       <body>
-        <ScrollReveal />
-        {children}
+        <ThemeProvider>
+          <ScrollReveal />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

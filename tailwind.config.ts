@@ -5,11 +5,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#0B0B0D",
-        panel: "#151518",
-        line: "#2A2A2F",
-        muted: "#A7A7A7",
-        accent: "#E60012"
+        ink: "var(--bg)",
+        panel: "var(--panel)",
+        line: "var(--line)",
+        muted: "var(--muted)",
+        accent: "var(--accent)"
       },
       fontFamily: {
         heading: ["var(--font-heading)", "Montserrat", "sans-serif"],

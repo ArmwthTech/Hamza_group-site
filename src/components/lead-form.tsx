@@ -58,9 +58,9 @@ export function LeadForm({ source = "landing" }: { source?: string }) {
   }
 
   const fieldClass = "grid gap-2";
-  const labelClass = "text-xs font-bold uppercase tracking-[0.16em] text-white/62";
+  const labelClass = "text-xs font-bold uppercase tracking-[0.16em] text-muted";
   const inputClass =
-    "min-h-12 rounded-md border border-line bg-black/35 px-4 text-sm text-white outline-none transition placeholder:text-muted/55 focus:border-accent focus:ring-2 focus:ring-accent/20";
+    "min-h-12 rounded-md border border-line bg-[color:var(--field-bg)] px-4 text-sm text-[color:var(--text)] outline-none transition placeholder:text-muted/55 focus:border-accent focus:ring-2 focus:ring-accent/20";
 
   return (
     <form onSubmit={onSubmit} className="dark-card grid gap-4 rounded-lg p-5 md:p-6" aria-label="Форма заявки на подбор автомобиля">
@@ -128,7 +128,7 @@ export function LeadForm({ source = "landing" }: { source?: string }) {
           />
         </label>
         <label className={fieldClass}>
-          <span className={labelClass}>Страна <span className="text-white/35">(необязательно)</span></span>
+          <span className={labelClass}>Страна <span className="text-muted/60">(необязательно)</span></span>
           <select
             className={inputClass}
             value={form.country_preference}
@@ -154,11 +154,11 @@ export function LeadForm({ source = "landing" }: { source?: string }) {
         Получить подборку
       </button>
       {message && (
-        <div className="flex items-start gap-2 rounded-md border border-line bg-white/[0.03] p-3 text-sm text-muted">
-          <CheckCircle2 size={18} className={status === "error" ? "text-accent" : "text-white"} />
+        <div className="flex items-start gap-2 rounded-md border border-line bg-[color:var(--panel-soft)] p-3 text-sm text-muted">
+          <CheckCircle2 size={18} className={status === "error" ? "text-accent" : "text-[color:var(--text)]"} />
           <span>
             {message}{" "}
-            <a className="font-bold text-white underline decoration-accent underline-offset-4" href={telegramUrl}>
+            <a className="font-bold text-[color:var(--text)] underline decoration-accent underline-offset-4" href={telegramUrl}>
               Написать в Telegram
             </a>
           </span>

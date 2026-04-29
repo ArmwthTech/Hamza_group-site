@@ -85,8 +85,8 @@ export function HeroSection() {
         sizes="100vw"
         className="object-cover object-[66%_48%]"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(9,10,13,0.98)_0%,rgba(9,10,13,0.86)_34%,rgba(9,10,13,0.42)_62%,rgba(9,10,13,0.12)_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,10,13,0.05)_0%,rgba(9,10,13,0.18)_55%,rgba(9,10,13,0.84)_100%)]" />
+      <div className="hero-overlay-side absolute inset-0" />
+      <div className="hero-overlay-bottom absolute inset-0" />
       <div className="section-shell relative z-10 flex min-h-[calc(100svh-78px)] flex-col justify-center py-14 sm:py-16 md:min-h-[760px] lg:min-h-[calc(100svh-78px)]">
         <div className="reveal max-w-[340px] sm:max-w-[760px]">
           <div className="mb-5 flex items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-muted">
@@ -247,7 +247,7 @@ export function ReferenceDashboard({ cars }: { cars: CarType[] }) {
 
 export function TrustBlock() {
   return (
-    <section className="border-b border-line bg-[#0E0F13]" data-reveal>
+    <section className="border-b border-line bg-[color:var(--panel-strong)]" data-reveal>
       <div className="section-shell grid divide-y divide-line md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-4">
         {[
           ["Прозрачные условия", "Фиксируем стоимость в договоре", ShieldCheck],
@@ -297,7 +297,7 @@ export function ServicesSection() {
 
 export function ProcessSection() {
   return (
-    <section id="process" className="border-y border-line bg-[#0E0F13] py-16 md:py-20 xl:py-24" data-reveal>
+    <section id="process" className="border-y border-line bg-[color:var(--panel-strong)] py-16 md:py-20 xl:py-24" data-reveal>
       <div className="section-shell">
         <SectionHeading
           eyebrow="Этапы"

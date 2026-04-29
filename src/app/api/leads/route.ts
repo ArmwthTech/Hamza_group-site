@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { validateLead } from "@/lib/lead-validation";
+import { getSupabaseServerClient } from "@/lib/supabase-server";
 import type { LeadPayload } from "@/types";
 
 type DeliveryStatus = "sent" | "skipped" | "failed";
@@ -10,14 +10,6 @@ type DeliveryResult = {
   sheets: DeliveryStatus;
   telegram: DeliveryStatus;
 };
-
-function getSupabaseServerClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !key) return null;
-  return createClient(url, key, { auth: { persistSession: false } });
-}
 
 function formatTelegramMessage(lead: LeadPayload) {
   return [
